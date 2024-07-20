@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -23,8 +25,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             GreetingCardTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    MessageCard(
+                        message = Message(author = "Sasa", body = "hello"),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -33,13 +35,21 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+data class Message(val author: String, val body: String)
+
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Surface(color = Color.Cyan) {
-        Text(
-            text = "Hi, my name is $name!",
-            modifier = modifier.padding(24.dp)
-        )
+fun MessageCard(message: Message, modifier: Modifier = Modifier) {
+    Surface(color = Color.White) {
+        Column {
+            Text(
+                text = "Hi, my name is ${message.author}!",
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = message.body,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
     }
 }
 
@@ -47,6 +57,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     GreetingCardTheme {
-        Greeting("Sasa")
+        MessageCard(Message(author = "Sasa", body = "Hello world"))
     }
 }
